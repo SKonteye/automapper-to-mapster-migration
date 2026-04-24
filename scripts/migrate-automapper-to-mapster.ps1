@@ -5,7 +5,7 @@
 .DESCRIPTION
     Mechanical codemod for migrating a .NET solution from AutoMapper to Mapster.
     It handles call sites and injection points (the easy 95%). It does NOT
-    translate Profile bodies (CreateMap / ForMember / ReverseMap) — that is a
+    translate Profile bodies (CreateMap / ForMember / ReverseMap) -- that is a
     manual step driven by the cheatsheet in
     docs/automapper-to-mapster-migration.md.
 
@@ -16,7 +16,7 @@
     The directory to scan. Defaults to the current directory.
 
 .PARAMETER DryRun
-    If set, no files are written — only the report is printed. Always run
+    If set, no files are written -- only the report is printed. Always run
     with -DryRun first to confirm the blast radius before committing to
     the change.
 
@@ -96,5 +96,5 @@ if ($needsManual.Count -gt 0) {
 
 if ($DryRun) {
     Write-Information ''
-    Write-Information 'DRY RUN — no files were written. Re-run without -DryRun to apply.'
+    Write-Information 'DRY RUN -- no files were written. Re-run without -DryRun to apply.'
 }
