@@ -28,12 +28,14 @@
     See docs/automapper-to-mapster-migration.md for the full migration guide.
 #>
 
+[CmdletBinding()]
 param(
     [string]$Root = '.',
     [switch]$DryRun
 )
 
 $ErrorActionPreference = 'Stop'
+$InformationPreference = 'Continue'
 Set-Location $Root
 
 $files = Get-ChildItem -Recurse -Include *.cs -File `
@@ -78,21 +80,21 @@ foreach ($file in $files) {
     }
 }
 
-Write-Host ''
-Write-Host '=== AutoMapper -> Mapster codemod report ===' -ForegroundColor Cyan
-Write-Host "Files scanned   : $($files.Count)"
-Write-Host "Files rewritten : $($touched.Count)"
-Write-Host "Files needing manual rewrite (Profile / CreateMap / DI) : $($needsManual.Count)"
+Write-Information ''
+Write-Information '=== AutoMapper -> Mapster codemod report ==='
+Write-Information "Files scanned   : $($files.Count)"
+Write-Information "Files rewritten : $($touched.Count)"
+Write-Information "Files needing manual rewrite (Profile / CreateMap / DI) : $($needsManual.Count)"
 
 if ($needsManual.Count -gt 0) {
-    Write-Host ''
-    Write-Host 'Manual-rewrite candidates:' -ForegroundColor Yellow
-    $needsManual | ForEach-Object { Write-Host "  $_" }
-    Write-Host ''
-    Write-Host 'Refer to docs/automapper-to-mapster-migration.md Step 4 for the cheatsheet.' -ForegroundColor Yellow
+    Write-Information ''
+    Write-Information 'Manual-rewrite candidates:'
+    $needsManual | ForEach-Object { Write-Information "  $_" }
+    Write-Information ''
+    Write-Information 'Refer to docs/automapper-to-mapster-migration.md Step 4 for the cheatsheet.'
 }
 
 if ($DryRun) {
-    Write-Host ''
-    Write-Host 'DRY RUN — no files were written. Re-run without -DryRun to apply.' -ForegroundColor Magenta
+    Write-Information ''
+    Write-Information 'DRY RUN — no files were written. Re-run without -DryRun to apply.'
 }
