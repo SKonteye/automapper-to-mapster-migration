@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Question about the migration
+    url: https://github.com/SKonteye/automapper-to-mapster-migration/discussions/new?category=q-a
+    about: Ask a question about how to handle a specific mapping case in Discussions instead of opening an issue.
+  - name: 📖 Suggest a cheatsheet improvement
+    url: https://github.com/SKonteye/automapper-to-mapster-migration/discussions/new?category=ideas
+    about: Propose a new row in the Profile → IRegister cheatsheet.
