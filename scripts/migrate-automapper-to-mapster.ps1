@@ -5,7 +5,7 @@
 .DESCRIPTION
     Mechanical codemod for migrating a .NET solution from AutoMapper to Mapster.
     It handles call sites and injection points (the easy 95%). It does NOT
-    translate Profile bodies (CreateMap / ForMember / ReverseMap) — that is a
+    translate Profile bodies (CreateMap / ForMember / ReverseMap) -- that is a
     manual step driven by the cheatsheet in
     docs/automapper-to-mapster-migration.md.
 
@@ -16,7 +16,7 @@
     The directory to scan. Defaults to the current directory.
 
 .PARAMETER DryRun
-    If set, no files are written — only the report is printed. Always run
+    If set, no files are written -- only the report is printed. Always run
     with -DryRun first to confirm the blast radius before committing to
     the change.
 
@@ -28,16 +28,18 @@
     See docs/automapper-to-mapster-migration.md for the full migration guide.
 #>
 
+[CmdletBinding()]
 param(
     [string]$Root = '.',
     [switch]$DryRun
 )
 
 $ErrorActionPreference = 'Stop'
+$InformationPreference = 'Continue'
 Set-Location $Root
 
 $files = Get-ChildItem -Recurse -Include *.cs -File `
-    | Where-Object { $_.FullName -notmatch '\\(bin|obj|\.git|TestResults|packages)\\' }
+    | Where-Object { $_.FullName -notmatch '[/\\](bin|obj|\.git|TestResults|packages)[/\\]' }
 
 $touched = @()
 $needsManual = @()
@@ -78,21 +80,21 @@ foreach ($file in $files) {
     }
 }
 
-Write-Host ''
-Write-Host '=== AutoMapper -> Mapster codemod report ===' -ForegroundColor Cyan
-Write-Host "Files scanned   : $($files.Count)"
-Write-Host "Files rewritten : $($touched.Count)"
-Write-Host "Files needing manual rewrite (Profile / CreateMap / DI) : $($needsManual.Count)"
+Write-Information ''
+Write-Information '=== AutoMapper -> Mapster codemod report ==='
+Write-Information "Files scanned   : $($files.Count)"
+Write-Information "Files rewritten : $($touched.Count)"
+Write-Information "Files needing manual rewrite (Profile / CreateMap / DI) : $($needsManual.Count)"
 
 if ($needsManual.Count -gt 0) {
-    Write-Host ''
-    Write-Host 'Manual-rewrite candidates:' -ForegroundColor Yellow
-    $needsManual | ForEach-Object { Write-Host "  $_" }
-    Write-Host ''
-    Write-Host 'Refer to docs/automapper-to-mapster-migration.md Step 4 for the cheatsheet.' -ForegroundColor Yellow
+    Write-Information ''
+    Write-Information 'Manual-rewrite candidates:'
+    $needsManual | ForEach-Object { Write-Information "  $_" }
+    Write-Information ''
+    Write-Information 'Refer to docs/automapper-to-mapster-migration.md Step 4 for the cheatsheet.'
 }
 
 if ($DryRun) {
-    Write-Host ''
-    Write-Host 'DRY RUN — no files were written. Re-run without -DryRun to apply.' -ForegroundColor Magenta
+    Write-Information ''
+    Write-Information 'DRY RUN -- no files were written. Re-run without -DryRun to apply.'
 }
