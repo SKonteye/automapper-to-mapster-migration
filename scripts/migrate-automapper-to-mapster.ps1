@@ -39,7 +39,7 @@ $InformationPreference = 'Continue'
 Set-Location $Root
 
 $files = Get-ChildItem -Recurse -Include *.cs -File `
-    | Where-Object { $_.FullName -notmatch '\\(bin|obj|\.git|TestResults|packages)\\' }
+    | Where-Object { $_.FullName -notmatch '[/\\](bin|obj|\.git|TestResults|packages)[/\\]' }
 
 $touched = @()
 $needsManual = @()
