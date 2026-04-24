@@ -13,6 +13,8 @@
 
 In late 2025, AutoMapper went commercial. Teams that were happy freeloading on a maintained OSS library suddenly had to choose: **pay, freeze, or migrate**.
 
+> **Security update (March 2026):** [CVE-2026-32933](https://nvd.nist.gov/vuln/detail/CVE-2026-32933) — uncontrolled recursion leading to `StackOverflowException` and process termination (CVSS 7.5, High) — is patched **only** in the commercial `15.1.1` and `16.1.1` releases. The last OSS version is unpatched. "Stay on the last OSS version" is materially worse advice than it was in late 2025.
+
 If you're migrating, the most common advice online — _build an adapter interface, run both libraries in parallel, migrate bounded-context by bounded-context over several sprints_ — is wrong for the common case. It introduces the tech debt you were trying to avoid.
 
 This repo contains the opposite playbook: **one branch, one PR, five moves**. It's built around a single observation:
